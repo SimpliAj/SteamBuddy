@@ -1,0 +1,41 @@
+
+{
+  "manifest_version": 3,
+  "name": "SteamBuddy",
+  "version": "1.0",
+  "description": "Redirects Steam Store game links, including PatchBot redirects, to open in the Steam client with toggle option.",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "webNavigation",
+    "storage"
+  ],
+  "host_permissions": [
+    "<all_urls>",
+    "https://store.steampowered.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "OIS.png",
+      "32": "OIS.png",
+      "48": "OIS.png",
+      "128": "OIS.png"
+    }
+  },
+  "icons": {
+    "16": "OIS.png",
+    "32": "OIS.png",
+    "48": "OIS.png",
+    "128": "OIS.png"
+  }
+}

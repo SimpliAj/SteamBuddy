@@ -1,0 +1,90 @@
+<!-- help.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SteamBuddy Help & Features</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    body { background-color: #1f2937; color: #f9fafb; }
+    .section { margin-bottom: 2rem; }
+    .feature-icon { font-size: 2rem; margin-right: 1rem; }
+  </style>
+</head>
+<body class="font-sans p-8 max-w-4xl mx-auto">
+  <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+    <div class="flex items-center mb-6">
+      <h1 class="text-3xl font-bold text-gray-100">SteamBuddy Help & Features</h1>
+      <button onclick="window.close()" class="ml-auto bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md">Close</button>
+    </div>
+
+    <p class="text-gray-300 mb-6">Welcome to SteamBuddy! This extension enhances your Steam experience by automating redirects and showing review summaries.</p>
+
+    <!-- Feature 1: Redirect to Steam Client -->
+    <div class="section bg-gray-700 p-4 rounded-md">
+      <h2 class="text-xl font-semibold mb-2 flex items-center">
+        <span class="feature-icon">Open in Steam Client (Redirect)</span>
+      </h2>
+      <p class="text-gray-300 mb-2">Automatically redirects Steam Store links to open directly in the Steam client.</p>
+      <ul class="list-disc pl-6 text-sm text-gray-400 mb-2">
+        <li>Works on game pages like <code>https://store.steampowered.com/app/12345/</code>.</li>
+        <li>Handles PatchBot redirects.</li>
+        <li>Toggle: Enable/disable via the main switch in the popup.</li>
+        <li>Delay: 2-second buffer to ensure page loads before redirect.</li>
+      </ul>
+      <p class="text-sm text-yellow-400">Tip: If Steam isn't running, it will launch the client.</p>
+    </div>
+
+    <!-- Feature 2: Age Check Automation -->
+    <div class="section bg-gray-700 p-4 rounded-md">
+      <h2 class="text-xl font-semibold mb-2 flex items-center">
+        <span class="feature-icon">Auto Age Verification</span>
+      </h2>
+      <p class="text-gray-300 mb-2">Bypasses Steam's age gate by auto-filling a birthdate (18+ years ago).</p>
+      <ul class="list-disc pl-6 text-sm text-gray-400 mb-2">
+        <li>Triggers on agecheck pages.</li>
+        <li>Sets: Day=1, Month=January, Year=Current Year - 18.</li>
+        <li>Always on when redirect is enabled.</li>
+      </ul>
+      <p class="text-sm text-yellow-400">Note: For convenience only; ensure you're of legal age.</p>
+    </div>
+
+    <!-- Feature 3: Ratings Overview -->
+    <div class="section bg-gray-700 p-4 rounded-md">
+      <h2 class="text-xl font-semibold mb-2 flex items-center">
+        <span class="feature-icon">Ratings Badge (Steam Reviews)</span>
+      </h2>
+      <p class="text-gray-300 mb-2">Displays a purple badge below the game title showing Steam review summary.</p>
+      <ul class="list-disc pl-6 text-sm text-gray-400 mb-2">
+        <li>Fetches recent reviews via Steam API.</li>
+        <li>Shows: Positive %, score description, total reviews.</li>
+        <li>Toggle in popup; reloads Steam tabs on change.</li>
+      </ul>
+      <p class="text-sm text-yellow-400">Fallback: "Not available" if data can't be loaded.</p>
+    </div>
+
+    <!-- Feature 4: Free Games Button -->
+    <div class="section bg-gray-700 p-4 rounded-md">
+      <h2 class="text-xl font-semibold mb-2 flex items-center">
+        <span class="feature-icon">Check for Free Games & DLCs</span>
+      </h2>
+      <p class="text-gray-300 mb-2">One-click button to open Steam's free games/search page.</p>
+      <ul class="list-disc pl-6 text-sm text-gray-400 mb-2">
+        <li>URL: <code>https://store.steampowered.com/search?maxprice=free&specials=1&ndl=1</code>.</li>
+        <li>Opens in new tab.</li>
+      </ul>
+    </div>
+
+    <!-- Troubleshooting -->
+    <div class="section bg-gray-600 p-4 rounded-md">
+      <h2 class="text-xl font-semibold mb-2">Troubleshooting</h2>
+      <ul class="list-disc pl-6 text-sm text-gray-400">
+        <li>Redirects not working? Ensure Steam client is installed and toggle is ON.</li>
+        <li>Badges not showing? Reload Steam tabs or check console (F12).</li>
+        <li>Update: Toggle review badge to reload tabs.</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

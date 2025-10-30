@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": {
+        "regexSubstitution": "steam://store/\\1"
+      }
+    },
+    "condition": {
+      "regexFilter": "^https://store\\.steampowered\\.com/app/(\\d+)/",
+      "resourceTypes": ["main_frame"]
+    }
+  }
+]
