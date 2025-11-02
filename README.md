@@ -1,3 +1,9 @@
+
+<p align="center">
+  <a href="https://tcno.co/">
+    <img src="https://i.imgur.com/OArYSkb.png"></a>
+</p>
+
 # SteamBuddy Chrome Extension
 
 ## Overview
