@@ -1,4 +1,3 @@
-<!-- help.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,74 +15,115 @@
   <div class="bg-gray-800 rounded-lg shadow-lg p-6">
     <div class="flex items-center mb-6">
       <h1 class="text-3xl font-bold text-gray-100">SteamBuddy Help & Features</h1>
-      <button onclick="window.close()" class="ml-auto bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md">Close</button>
     </div>
 
-    <p class="text-gray-300 mb-6">Welcome to SteamBuddy! This extension enhances your Steam experience by automating redirects and showing review summaries.</p>
+    <p class="text-gray-300 mb-6">Welcome to SteamBuddy! This extension automatically claims free games from Steam and Epic Games Store. Below, you'll find explanations for all features.</p>
 
-    <!-- Feature 1: Redirect to Steam Client -->
+    <!-- Feature 1: Auto-Claim Steam -->
     <div class="section bg-gray-700 p-4 rounded-md">
       <h2 class="text-xl font-semibold mb-2 flex items-center">
-        <span class="feature-icon">Open in Steam Client (Redirect)</span>
+        <span class="feature-icon">🎮</span>
+        Steam Auto-Claim
       </h2>
-      <p class="text-gray-300 mb-2">Automatically redirects Steam Store links to open directly in the Steam client.</p>
+      <p class="text-gray-300 mb-2">Automatically finds and claims all free games from Steam Store based on your schedule.</p>
+      <ul class="list-disc pl-6 text-sm text-gray-400 mb-2">
+        <li>Searches Steam Store for free games with -100% discount.</li>
+        <li>Skips games already in your library.</li>
+        <li>Supports multiple frequencies: Hourly, 6h, 12h, Daily, or On Browser Start.</li>
+        <li>Automatically handles age verification gates.</li>
+        <li>Discord notifications with game lists on success/failure.</li>
+      </ul>
+      <p class="text-sm text-yellow-400">Tip: Requires you to be logged into Steam Store.</p>
+    </div>
+
+    <!-- Feature 2: Auto-Claim Epic Games -->
+    <div class="section bg-gray-700 p-4 rounded-md">
+      <h2 class="text-xl font-semibold mb-2 flex items-center">
+        <span class="feature-icon">🎮</span>
+        Epic Games Auto-Claim
+      </h2>
+      <p class="text-gray-300 mb-2">Automatically finds and claims all free games from Epic Games Store.</p>
+      <ul class="list-disc pl-6 text-sm text-gray-400 mb-2">
+        <li>Detects games marked as "Free Now".</li>
+        <li>Navigates to each game page and clicks claim.</li>
+        <li>Uses same schedule as Steam auto-claim.</li>
+        <li>Discord notifications with game lists on success/failure.</li>
+      </ul>
+      <p class="text-sm text-yellow-400">Tip: Requires you to be logged into Epic Games Store.</p>
+    </div>
+
+    <!-- Feature 3: Redirect to Steam Client -->
+    <div class="section bg-gray-700 p-4 rounded-md">
+      <h2 class="text-xl font-semibold mb-2 flex items-center">
+        <span class="feature-icon">🚀</span>
+        Open in Steam Client (Redirect)
+      </h2>
+      <p class="text-gray-300 mb-2">Automatically redirects Steam Store links to open directly in the Steam client using the <code>steam://store/[APPID]</code> protocol.</p>
       <ul class="list-disc pl-6 text-sm text-gray-400 mb-2">
         <li>Works on game pages like <code>https://store.steampowered.com/app/12345/</code>.</li>
-        <li>Handles PatchBot redirects.</li>
+        <li>Handles PatchBot redirects (e.g., affiliate links).</li>
         <li>Toggle: Enable/disable via the main switch in the popup.</li>
-        <li>Delay: 2-second buffer to ensure page loads before redirect.</li>
       </ul>
       <p class="text-sm text-yellow-400">Tip: If Steam isn't running, it will launch the client.</p>
     </div>
 
-    <!-- Feature 2: Age Check Automation -->
+    <!-- Feature 4: Age Check Automation -->
     <div class="section bg-gray-700 p-4 rounded-md">
       <h2 class="text-xl font-semibold mb-2 flex items-center">
-        <span class="feature-icon">Auto Age Verification</span>
+        <span class="feature-icon">🛡️</span>
+        Auto Age Verification
       </h2>
-      <p class="text-gray-300 mb-2">Bypasses Steam's age gate by auto-filling a birthdate (18+ years ago).</p>
+      <p class="text-gray-300 mb-2">Bypasses Steam's age gate on mature-rated games by auto-filling a default birthdate (18+ years ago) and submitting the form.</p>
       <ul class="list-disc pl-6 text-sm text-gray-400 mb-2">
-        <li>Triggers on agecheck pages.</li>
+        <li>Triggers on pages like <code>https://store.steampowered.com/agecheck/app/[APPID]/</code>.</li>
         <li>Sets: Day=1, Month=January, Year=Current Year - 18.</li>
         <li>Always on when redirect is enabled.</li>
       </ul>
-      <p class="text-sm text-yellow-400">Note: For convenience only; ensure you're of legal age.</p>
+      <p class="text-sm text-yellow-400">Note: This is for convenience; ensure you're of legal age to view content.</p>
     </div>
 
-    <!-- Feature 3: Ratings Overview -->
+    <!-- Feature 5: Ratings Overview -->
     <div class="section bg-gray-700 p-4 rounded-md">
       <h2 class="text-xl font-semibold mb-2 flex items-center">
-        <span class="feature-icon">Ratings Badge (Steam Reviews)</span>
+        <span class="feature-icon">⭐</span>
+        Ratings Badge (Steam Reviews)
       </h2>
-      <p class="text-gray-300 mb-2">Displays a purple badge below the game title showing Steam review summary.</p>
+      <p class="text-gray-300 mb-2">Displays a purple badge below the game title showing Steam user review summary.</p>
       <ul class="list-disc pl-6 text-sm text-gray-400 mb-2">
         <li>Fetches recent reviews via Steam API.</li>
-        <li>Shows: Positive %, score description, total reviews.</li>
-        <li>Toggle in popup; reloads Steam tabs on change.</li>
+        <li>Shows: Positive percentage, score description (e.g., "Very Positive"), and total review count.</li>
+        <li>Example: "Steam-Reviews: 85% Very Positive (12,345 Reviews)".</li>
+        <li>Toggle: Enable/disable in popup; reloads Steam tabs on change.</li>
       </ul>
       <p class="text-sm text-yellow-400">Fallback: "Not available" if data can't be loaded.</p>
     </div>
 
-    <!-- Feature 4: Free Games Button -->
+    <!-- Feature 6: Discord Integration -->
     <div class="section bg-gray-700 p-4 rounded-md">
       <h2 class="text-xl font-semibold mb-2 flex items-center">
-        <span class="feature-icon">Check for Free Games & DLCs</span>
+        <span class="feature-icon">💬</span>
+        Discord Webhook Notifications
       </h2>
-      <p class="text-gray-300 mb-2">One-click button to open Steam's free games/search page.</p>
+      <p class="text-gray-300 mb-2">Sends a message to your Discord server whenever auto-claim runs, with the list of claimed games.</p>
       <ul class="list-disc pl-6 text-sm text-gray-400 mb-2">
-        <li>URL: <code>https://store.steampowered.com/search?maxprice=free&specials=1&ndl=1</code>.</li>
-        <li>Opens in new tab.</li>
+        <li>Configure in Settings tab by entering a Discord Webhook URL.</li>
+        <li>Messages include game titles, color-coded by platform (Steam/Epic).</li>
+        <li>Sends both success messages (games claimed) and status messages (no games available).</li>
+        <li>Error notifications if auto-claim fails.</li>
       </ul>
+      <p class="text-sm text-yellow-400">Tip: How to get a Discord Webhook URL: Right-click your channel → Edit Channel → Integrations → Webhooks → New Webhook</p>
     </div>
 
     <!-- Troubleshooting -->
     <div class="section bg-gray-600 p-4 rounded-md">
       <h2 class="text-xl font-semibold mb-2">Troubleshooting</h2>
       <ul class="list-disc pl-6 text-sm text-gray-400">
-        <li>Redirects not working? Ensure Steam client is installed and toggle is ON.</li>
-        <li>Badges not showing? Reload Steam tabs or check console (F12).</li>
-        <li>Update: Toggle review badge to reload tabs.</li>
+        <li>Auto-claim not working? Ensure you're logged into Steam and/or Epic Games Store.</li>
+        <li>Discord messages not sent? Check your webhook URL is correct and not expired.</li>
+        <li>Redirects not working? Ensure Steam client is installed and the main toggle is ON.</li>
+        <li>Check browser console (F12) for detailed error messages.</li>
       </ul>
+      <p class="text-sm text-yellow-400 mt-2">Having issues? Open an issue on GitHub!</p>
     </div>
   </div>
 </body>

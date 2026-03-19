@@ -1,18 +1,23 @@
-
 {
   "manifest_version": 3,
   "name": "SteamBuddy",
   "version": "1.0",
-  "description": "Redirects Steam Store game links, including PatchBot redirects, to open in the Steam client with toggle option.",
+  "description": "Auto-claim free games from Steam and Epic Games Store. Redirects Steam Store links to open in the Steam client.",
   "permissions": [
     "activeTab",
     "scripting",
     "webNavigation",
-    "storage"
+    "storage",
+    "alarms",
+    "tabs",
+    "notifications"
   ],
   "host_permissions": [
     "<all_urls>",
-    "https://store.steampowered.com/*"
+    "https://store.steampowered.com/*",
+    "https://store.epicgames.com/*",
+    "https://discordapp.com/*",
+    "https://discord.com/*"
   ],
   "content_scripts": [
     {

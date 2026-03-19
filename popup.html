@@ -1,4 +1,3 @@
-<!-- popup.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,55 +6,495 @@
   <title>SteamBuddy</title>
   <script src="popup.js"></script>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    .toggle-checkbox:checked + .toggle-bg {
-      background-color: #60a5fa; /* Hellblau für "An" */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    .toggle-checkbox:checked ~ .toggle-knob {
-      transform: translateX(1.25rem); /* Verschiebung für "An" */
+
+    body {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     }
-    .toggle-bg {
-      transition: background-color 0.2s ease-in-out;
+
+    .container {
+      width: 420px;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #1e40af 0%, #312e81 100%);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .header img {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+    }
+
+    .header h1 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #f1f5f9;
+      letter-spacing: -0.5px;
+    }
+
+    /* Tabs Navigation */
+    .tabs-nav {
+      display: flex;
+      gap: 4px;
+      padding: 8px;
+      background: rgba(15, 23, 42, 0.5);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(10px);
+    }
+
+    .tab-button {
+      flex: 1;
+      padding: 10px 12px;
+      background: rgba(100, 116, 139, 0.2);
+      color: #cbd5e1;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tab-button:hover:not(.active) {
+      background: rgba(100, 116, 139, 0.35);
+      color: #e2e8f0;
+    }
+
+    .tab-button.active {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    }
+
+    /* Tab Content */
+    .tabs-content {
+      padding: 16px;
+      min-height: 200px;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease-in;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Toggle Switch */
+    .toggle-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      transition: background 0.2s;
+    }
+
+    .toggle-item:last-child {
+      border-bottom: none;
+    }
+
+    .toggle-label {
+      font-size: 14px;
+      font-weight: 500;
+      color: #e2e8f0;
+    }
+
+    /* Custom Toggle */
+    .toggle-switch {
+      position: relative;
+      width: 44px;
+      height: 24px;
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1.5px solid #991b1b;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 2px 6px rgba(239, 68, 68, 0.2);
+    }
+
+    .toggle-checkbox {
+      position: absolute;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      left: -999px;
+    }
+
+    .toggle-checkbox:checked ~ .toggle-switch {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      border-color: #047857;
+      box-shadow: 0 0 12px rgba(16, 185, 129, 0.4), inset 0 1px 3px rgba(0, 0, 0, 0.2);
+    }
+
     .toggle-knob {
-      transition: transform 0.2s ease-in-out;
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: white;
+      border-radius: 9px;
+      left: 3px;
+      transition: left 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+    }
+
+    .toggle-checkbox:checked ~ .toggle-switch .toggle-knob {
+      left: 23px;
+    }
+
+    /* Action Buttons Section */
+    .action-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 8px;
+      background: rgba(100, 116, 139, 0.2);
+      border: 1px solid rgba(100, 116, 139, 0.3);
+      border-radius: 8px;
+      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .action-btn i {
+      font-size: 18px;
+    }
+
+    .action-btn:hover {
+      background: rgba(100, 116, 139, 0.35);
+      color: #e2e8f0;
+      border-color: rgba(100, 116, 139, 0.5);
+    }
+
+    #freeGamesButton {
+      background: linear-gradient(135deg, rgba(51, 65, 85, 0.4) 0%, rgba(30, 41, 59, 0.4) 100%);
+      border-color: rgba(148, 163, 184, 0.2);
+    }
+
+    #freeGamesButton:hover {
+      background: linear-gradient(135deg, rgba(71, 85, 105, 0.5) 0%, rgba(50, 61, 79, 0.5) 100%);
+      border-color: rgba(148, 163, 184, 0.4);
+    }
+
+    #epicGamesButton {
+      background: linear-gradient(135deg, rgba(109, 40, 217, 0.2) 0%, rgba(88, 28, 185, 0.2) 100%);
+      border-color: rgba(147, 51, 234, 0.2);
+    }
+
+    #epicGamesButton:hover {
+      background: linear-gradient(135deg, rgba(109, 40, 217, 0.35) 0%, rgba(88, 28, 185, 0.35) 100%);
+      border-color: rgba(147, 51, 234, 0.4);
+      color: #e0e7ff;
+    }
+
+    #helpButton {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.2) 100%);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    #helpButton:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.35) 0%, rgba(37, 99, 235, 0.35) 100%);
+      border-color: rgba(59, 130, 246, 0.5);
+      color: #93c5fd;
+    }
+
+    /* Input & Select */
+    input[type="text"],
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      color: #e2e8f0;
+      border-radius: 8px;
+      font-size: 13px;
+      transition: all 0.2s;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"]:focus,
+    select:focus {
+      outline: none;
+      background: rgba(30, 41, 59, 0.9);
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    input[type="text"]::placeholder {
+      color: #64748b;
+    }
+
+    /* Checkbox */
+    input[type="checkbox"] {
+      accent-color: #3b82f6;
+      cursor: pointer;
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Settings Section */
+    .settings-section {
+      margin-bottom: 16px;
+    }
+
+    .settings-section label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #cbd5e1;
+      margin-bottom: 8px;
+    }
+
+    .settings-hint {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 6px;
+    }
+
+    /* Platform Selection */
+    .platform-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .platform-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px;
+      background: rgba(100, 116, 139, 0.1);
+      border: 1px solid rgba(100, 116, 139, 0.2);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .platform-item:hover {
+      background: rgba(100, 116, 139, 0.2);
+      border-color: rgba(100, 116, 139, 0.4);
+    }
+
+    .platform-item label {
+      flex: 1;
+      margin: 0;
+      font-size: 13px;
+      cursor: pointer;
+      color: #e2e8f0;
+    }
+
+    .platform-item div {
+      color: #e2e8f0;
+    }
+
+    /* Action Buttons (Settings) */
+    .settings-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .btn {
+      padding: 10px 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+    .btn-secondary:hover {
+      box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+    }
+
+    .btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
     }
   </style>
 </head>
-<body class="bg-gray-900 font-sans">
-  <div class="w-64 p-4 bg-gray-800 rounded-lg shadow-lg">
-    <div class="flex items-center mb-4">
-      <img id="statusIcon" src="OIS-active.png" alt="Status Icon" class="w-8 h-8 mr-2">
-      <h1 class="text-lg font-bold text-gray-100">SteamBuddy</h1>
-    </div>
-    
-    <!-- Redirect-Toggle -->
-    <div class="flex items-center justify-between mb-4">
-      <span id="toggleLabel" class="text-sm font-medium text-gray-300">Deactivate</span>
-      <label class="relative inline-flex items-center cursor-pointer">
-        <input id="toggleRedirect" type="checkbox" class="sr-only toggle-checkbox">
-        <div class="toggle-bg w-10 h-6 bg-gray-600 rounded-full"></div>
-        <div class="toggle-knob absolute w-4 h-4 bg-gray-200 rounded-full top-1 left-1"></div>
-      </label>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <img id="statusIcon" src="OIS-active.png" alt="Status Icon">
+      <h1>SteamBuddy</h1>
     </div>
 
-     <!-- Steam Reviews-Toggle -->
-    <div class="flex items-center justify-between mb-4">
-      <span id="reviewToggleLabel" class="text-sm font-medium text-gray-300">Steam Reviews Off</span>
-      <label class="relative inline-flex items-center cursor-pointer">
-        <input id="toggleReviewBadge" type="checkbox" class="sr-only toggle-checkbox">
-        <div class="toggle-bg w-10 h-6 bg-gray-600 rounded-full"></div>
-        <div class="toggle-knob absolute w-4 h-4 bg-gray-200 rounded-full top-1 left-1"></div>
-      </label>
+    <!-- Tabs Navigation -->
+    <div class="tabs-nav">
+      <button class="tab-button active" data-tab="main">Main</button>
+      <button class="tab-button" data-tab="auto-claim">Auto-Claim</button>
+      <button class="tab-button" data-tab="settings">Settings</button>
     </div>
-    
-    <button id="freeGamesButton" class="w-full py-2 px-4 bg-blue-600 text-gray-100 rounded-md hover:bg-blue-700 transition duration-200">
-      Check for Free Games & DLCs
-    </button>
 
-    <button id="helpButton" class="w-full py-2 px-4 bg-purple-600 text-gray-100 rounded-md hover:bg-purple-700 transition duration-200 mt-2">
-      Help & Features
-    </button>
+    <!-- Tabs Content -->
+    <div class="tabs-content">
+      <!-- Main Tab -->
+      <div id="main-tab" class="tab-content active">
+        <div class="toggle-item">
+          <span class="toggle-label" id="toggleLabel">Redirect to Steam</span>
+          <input id="toggleRedirect" type="checkbox" class="toggle-checkbox">
+          <div class="toggle-switch">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="toggle-item">
+          <span class="toggle-label" id="reviewToggleLabel">Steam Reviews</span>
+          <input id="toggleReviewBadge" type="checkbox" class="toggle-checkbox">
+          <div class="toggle-switch">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="action-buttons">
+          <button id="freeGamesButton" class="action-btn" title="Open Steam Free Games">
+            <i class="fab fa-steam"></i>
+            <span>Steam</span>
+          </button>
+          <button id="epicGamesButton" class="action-btn" title="Open Epic Free Games">
+            <i class="fas fa-gamepad"></i>
+            <span>Epic</span>
+          </button>
+          <button id="helpButton" class="action-btn" title="Help & Features">
+            <i class="fas fa-circle-question"></i>
+            <span>Help</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Auto-Claim Tab -->
+      <div id="auto-claim-tab" class="tab-content">
+        <div style="background: linear-gradient(135deg, #FFA500 0%, #FF8C00 100%); border: 1.5px solid #FF7F00; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(255, 165, 0, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.1);">
+          <div style="color: #fff; font-weight: 600; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+            <i class="fas fa-hammer" style="font-size: 14px;"></i>
+            <span>Work In Progress</span>
+          </div>
+          <div style="color: rgba(255, 255, 255, 0.9); font-size: 12px; margin-top: 6px;">This feature is still being developed and tested. Use with caution.</div>
+        </div>
+
+        <div class="toggle-item">
+          <span class="toggle-label" id="autoClaimLabel">Auto-Claim</span>
+          <input id="toggleAutoClaim" type="checkbox" class="toggle-checkbox">
+          <div class="toggle-switch">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+
+        <div id="platformContainer" style="display: none; margin-top: 12px;">
+          <div style="font-size: 13px; font-weight: 600; color: #cbd5e1; margin-bottom: 8px;">Platforms</div>
+          <div class="platform-grid">
+            <label class="platform-item">
+              <input id="steamCheckbox" type="checkbox" checked>
+              <div>Steam</div>
+            </label>
+            <label class="platform-item">
+              <input id="epicCheckbox" type="checkbox">
+              <div>Epic Games</div>
+            </label>
+          </div>
+        </div>
+
+        <div id="frequencyContainer" style="display: none; margin-top: 12px;">
+          <label style="display: block; font-size: 13px; font-weight: 600; color: #cbd5e1; margin-bottom: 8px;">Claim Frequency</label>
+          <select id="claimFrequency">
+            <option value="browser_start">At Browser Start</option>
+            <option value="hourly">Every Hour</option>
+            <option value="every_6h">Every 6 Hours</option>
+            <option value="every_12h">Every 12 Hours</option>
+            <option value="daily" selected>Daily</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Settings Tab -->
+      <div id="settings-tab" class="tab-content">
+        <div class="settings-section">
+          <label for="discordWebhookUrl">Discord Webhook URL</label>
+          <input id="discordWebhookUrl" type="text" placeholder="https://discordapp.com/api/webhooks/...">
+          <div class="settings-hint">Leave empty to disable Discord notifications</div>
+        </div>
+
+        <div class="settings-actions">
+          <button id="testDiscordButton" class="btn btn-primary">
+            <i class="fas fa-paper-plane" style="margin-right: 6px;"></i>Test
+          </button>
+          <button id="clearDiscordButton" class="btn btn-secondary">
+            <i class="fas fa-trash" style="margin-right: 6px;"></i>Clear
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
