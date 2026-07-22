@@ -13,7 +13,6 @@
     "notifications"
   ],
   "host_permissions": [
-    "<all_urls>",
     "https://store.steampowered.com/*",
     "https://store.epicgames.com/*",
     "https://discordapp.com/*",
